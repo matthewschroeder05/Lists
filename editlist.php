@@ -31,10 +31,14 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 		$list = "";
 		foreach($_POST['list'] as $element) {
 			if($list == "")
-				$list = $element;
-			else $list = $list . "," . $element;
+				$list = trim($element);
+			else if(trim($element))
+				$list = $list . "," . trim($element);
 		}
 		$title = $_POST['title'];
+		$newitem = trim($_POST['newitem']);
+		if($newitem)
+			$list = $list . "," . $newitem;
 
 		$SQL = $db_found->prepare('UPDATE LISTS SET TITLE = ?, LIST = ? WHERE ID = ?');
 			$SQL->bind_param('sss', $title, $list, $id);
@@ -52,13 +56,18 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 		$row = mysqli_fetch_assoc($result);
 		$items = explode(",", $row['LIST']);
 		print "<form name =\"editform\" method =\"post\" action=\"editlist.php?list=" . $id . "\">";
-		print "<input type = 'text' name =\"title\" value=\"" . $row['TITLE'] . "\"><br>";
+		print "<input type = \"text\" name =\"title\" value=\"" . $row['TITLE'] . "\"><br>";
 		foreach($items as $item) 
 			print "<input type = 'text' name=\"list[]\" value=\"" . $item . "\"><br>";
 		?>
+		Add new list elements here. You can add multiple new items by seperating them with a comma. (",")
+		<br>
+		<INPUT TYPE = 'TEXT' Name ='newitem'  value="">
+		<br>
 		<input type = "Submit" Name = "savebutton" Value = "Save">
+		<a href="mylists.php">Cancel</a>
 	  </form>
-	  <a href="mylists.php">My Lists</a>
+	  
 		<p>
 			<?PHP
 			print $errormessage;

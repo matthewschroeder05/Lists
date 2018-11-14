@@ -1,5 +1,5 @@
 <?PHP
-$errorMessage = '';
+$errormessage = '';
 $debug = "";
 
 session_start();
@@ -7,35 +7,28 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 	header ("Location: login.php");
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	require '../../configure.php';
-
-	$title = $_POST['listname'];
-	$list = $_POST['item'];
-
+	$title = trim($_POST['listname']);
+	$list = trim($_POST['item']);
 	$database = "lists";
-
 	$db_found = new mysqli(DB_SERVER, DB_USER, DB_PASS, $database);
-
-	if ($db_found) {		
-	
+	if(!$title || !$list)
+		$errormessage = "List must have a title and at least one item!";
+	if($db_found) {		
 			$SQL = $db_found->prepare("INSERT INTO lists (L1, TITLE, LIST) VALUES (?,?,?)");
 			$SQL->bind_param('sss', $_SESSION['user'], $title, $list);
 			$SQL->execute();
-
 			header ("Location: page1.php");
-		}
-	
+	}
 	else {
-		$errorMessage = "Database Not Found";
+		$errormessage = "Database Not Found";
 	}
 }
-
-
 ?>
 	<html>
 	<head>
-	<title>Lists -- Editing a List</title>
+	<title>Lists -- New List</title>
 
 
 	</head>
@@ -54,7 +47,7 @@ item: <INPUT TYPE = 'TEXT' Name ='item'  value="">
 <p>
 <A HREF = logout.php>Log out</A>
 <P>
-<?PHP print $errorMessage;?>
+<?PHP print $errormessage;?>
 <?PHP print "User " . $_SESSION['user'] . " Logged In";?>
 
 	</body>
