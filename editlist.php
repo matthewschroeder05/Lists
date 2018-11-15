@@ -30,13 +30,13 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 	if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 		$list = "";
 		foreach($_POST['list'] as $element) {
-			if($list == "")
-				$list = trim($element);
-			else if(trim($element))
+			if($list == "") 
+				$list = trim($element, " ,");
+			else if(trim($element, " ,"))
 				$list = $list . "," . trim($element);
 		}
-		$title = $_POST['title'];
-		$newitem = trim($_POST['newitem']);
+		$title = trim($_POST['title']);
+		$newitem = trim($_POST['newitem'], " ,");
 		if($newitem)
 			$list = $list . "," . $newitem;
 
