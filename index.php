@@ -1,7 +1,7 @@
 <?PHP
 session_start();
 if ((isset($_SESSION['login']) && $_SESSION['login'] != '')) {
-	header ("Location: page1.php");
+	header ("Location: mylists.php");
 }
 
 // $uname = "";
@@ -44,10 +44,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <html>
 <head>
+	<link rel="stylesheet" type="text/css" href="liststyle.css">
 <title>Welcome to Lists</title>
 </head>
 <body>
-<FORM NAME ="form1" METHOD ="POST" ACTION ="signup.php">
+<FORM NAME ="form1" METHOD ="POST" ACTION ="index.php">
 Username: <INPUT TYPE = 'TEXT' Name ='username'  value="" >
 Password: <INPUT TYPE = 'password' Name ='password'  value="" >
 <P>

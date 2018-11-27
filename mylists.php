@@ -27,6 +27,7 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 <html>
 <head>
 	<title>My Lists</title>
+	<link rel="stylesheet" type="text/css" href="liststyle.css">
 </head>
 <body>
 	<?PHP 
@@ -40,7 +41,7 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 			
 	?>
 	<p>
-		<a href="page1.php">home</a> <a href="logout.php">log out</a>
+		<a href="newlist.php">new list</a> <a href="logout.php">log out</a>
 		<p>
 			<?PHP 
 			print $errormessage;

@@ -50,6 +50,7 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 	<html>
 	<head>
 		<title>List Edit</title>
+		<link rel="stylesheet" type="text/css" href="liststyle.css">
 	</head>
 	<body>
 		<?PHP
