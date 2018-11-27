@@ -1,11 +1,10 @@
 <?PHP
-$title = "";
+$errormessage = "";
 session_start();
 if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 	header ("Location: login.php");
 }
 
-//if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	require '../../configure.php';
 	$database = "lists";
 
@@ -13,7 +12,7 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 
 	if ($db_found) {		
 	
-			$SQL = $db_found->prepare('SELECT TITLE, LIST FROM LISTS WHERE L1 = ?');
+			$SQL = $db_found->prepare('SELECT ID, TITLE, LIST FROM LISTS WHERE L1 = ?');
 			$SQL->bind_param('s', $_SESSION['user']);
 			$SQL->execute();
 			$result = $SQL->get_result();
@@ -21,7 +20,7 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 		}
 	
 	else {
-		$errorMessage = "Database Not Found";
+		$errormessage = "Database Not Found";
 	}
 
 ?>
@@ -34,7 +33,7 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 
 			while($row = mysqli_fetch_assoc($result)) {
 				$items = explode(",", $row['LIST']);
-				print $row['TITLE'] . "<br>";
+				print $row['TITLE'] . " <a href=\"editlist.php?list=" . $row['ID'] . "\">edit</a><br>";
 				foreach($items as $item) 
 					print $item . "<br>";
 			}
@@ -42,5 +41,9 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 	?>
 	<p>
 		<a href="page1.php">home</a> <a href="logout.php">log out</a>
+		<p>
+			<?PHP 
+			print $errormessage;
+			?>
 </body>
 </html>
