@@ -35,8 +35,11 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 			while($row = mysqli_fetch_assoc($result)) {
 				$items = explode(",", $row['LIST']);
 				print $row['TITLE'] . " <a href=\"editlist.php?list=" . $row['ID'] . "\">edit</a><br>";
-				foreach($items as $item) 
-					print $item . "<br>";
+				$count = 0;
+				foreach($items as $item) {
+					($count % 2 == 0) ? print $item . "<br>" : print "<div class=\"mylisteven\">" . $item . "</div>";
+					$count++;
+				}
 			}
 			
 	?>
