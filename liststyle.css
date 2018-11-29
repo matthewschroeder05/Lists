@@ -1,3 +1,16 @@
 .mylisteven {
 	background-color: lightblue;
 }
+
+.listtitle {
+	text-decoration: underline;
+	text-decoration: bold;
+	font-size: 30px;
+	display: inline-block;
+	margin-bottom: : 200px;
+}
+
+.listitem {
+	font-size: 24px;
+	font: helvetica;
+}
