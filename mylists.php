@@ -4,26 +4,19 @@ session_start();
 if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 	header ("Location: login.php");
 }
-
-	require '../../configure.php';
-	$database = "lists";
-	$uname = $_SESSION['user'];
-
-	$db_found = new mysqli(DB_SERVER, DB_USER, DB_PASS, $database);
-
-	if ($db_found) {		
-	
-			$SQL = $db_found->prepare('SELECT ID, TITLE, LIST FROM LISTS WHERE L1 = ?');
-			$SQL->bind_param('s', $uname);
-			$SQL->execute();
-			$result = $SQL->get_result();
-			
-		}
-	
-	else {
-		$errormessage = "Database Not Found";
-	}
-
+require '../../configure.php';
+$database = "lists";
+$uname = $_SESSION['user'];
+$db_found = new mysqli(DB_SERVER, DB_USER, DB_PASS, $database);
+if ($db_found) {		
+	$SQL = $db_found->prepare('SELECT ID, TITLE, LIST FROM LISTS WHERE L1 = ?');
+	$SQL->bind_param('s', $uname);
+	$SQL->execute();
+	$result = $SQL->get_result();
+}
+else {
+	$errormessage = "Database Not Found";
+}
 ?>
 <html>
 <head>
@@ -35,8 +28,7 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 	<div class="main-container">
 		<div class="listtitle"><?PHP print $uname . "'s lists";?></div>
 	<?PHP 
-
-			while($row = mysqli_fetch_assoc($result)) {
+				while($row = mysqli_fetch_assoc($result)) {
 				print "<div class=\"list-container\">";
 				$items = explode(",", $row['LIST']);
 				print "<div class=\"listtitle\">" . $row['TITLE'] . "<div class=\"title\"><a href=\"editlist.php?list=" . $row['ID'] . "\">edit</a> <a href=\"deletelist.php?list=" . $row['ID'] . "\">delete</a></div></div><br>";

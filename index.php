@@ -3,22 +3,18 @@ session_start();
 if ((isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 	header ("Location: mylists.php");
 }
-
 $errorMessage = "";
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	require '../../configure.php';
 	$uname = $_POST['username'];
 	$pword = $_POST['password'];
 	$database = "lists";
 	$db_found = new mysqli(DB_SERVER, DB_USER, DB_PASS, $database);
-	
 	if ($db_found) {		
 		$SQL = $db_found->prepare('SELECT * FROM login WHERE L1 = ?');
 		$SQL->bind_param('s', $uname);
 		$SQL->execute();
 		$result = $SQL->get_result();
-	
 	if ($result->num_rows > 0) {
 			$errorMessage = "Username already taken";
 		}
@@ -27,7 +23,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$SQL = $db_found->prepare("INSERT INTO login (L1, L2) VALUES (?, ?)");
 			$SQL->bind_param('ss', $uname, $phash);
 			$SQL->execute();
-
 			header ("Location: login.php");
 		}
 	}
@@ -36,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	}
 }
 ?>
-
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="liststyle.css">

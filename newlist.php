@@ -2,17 +2,17 @@
 $errormessage = '';
 $debug = "";
 session_start();
-if(!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
+if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 	header ("Location: login.php");
 }
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	require '../../configure.php';
 	$title = trim($_POST['listname']);
 	$list = trim($_POST['item'], " ,");
 	$database = "lists";
 	$db_found = new mysqli(DB_SERVER, DB_USER, DB_PASS, $database);
-	if($title && $list) {
-		if($db_found) {		
+	if ($title && $list) {
+		if ($db_found) {		
 			$SQL = $db_found->prepare("INSERT INTO lists (L1, TITLE, LIST) VALUES (?,?,?)");
 			$SQL->bind_param('sss', $_SESSION['user'], $title, $list);
 			$SQL->execute();

@@ -5,89 +5,79 @@ session_start();
 if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 	header ("Location: login.php");
 }
-
-	require '../../configure.php';
-	$database = "lists";
-	$uname = $_SESSION['user'];
-
-	$db_found = new mysqli(DB_SERVER, DB_USER, DB_PASS, $database);
-
-	if ($db_found) {	
-
-			$SQL = $db_found->prepare('SELECT * FROM LISTS WHERE L1 = ? AND ID = ?');
-			$SQL->bind_param('ss', $uname, $id);
-			$SQL->execute();
-			$result = $SQL->get_result();
-			if ($result->num_rows < 1)
-				header("location: login.php");
-	
-			$SQL = $db_found->prepare('SELECT TITLE, LIST FROM LISTS WHERE ID = ?');
-			$SQL->bind_param('s', $id);
-			$SQL->execute();
-			$result = $SQL->get_result();
-			
-		}
-	
+require '../../configure.php';
+$database = "lists";
+$uname = $_SESSION['user'];
+$db_found = new mysqli(DB_SERVER, DB_USER, DB_PASS, $database);
+if ($db_found) {	
+	$SQL = $db_found->prepare('SELECT * FROM LISTS WHERE L1 = ? AND ID = ?');
+	$SQL->bind_param('ss', $uname, $id);
+	$SQL->execute();
+	$result = $SQL->get_result();
+	if ($result->num_rows < 1)
+		header("location: login.php");
+		$SQL = $db_found->prepare('SELECT TITLE, LIST FROM LISTS WHERE ID = ?');
+		$SQL->bind_param('s', $id);
+		$SQL->execute();
+		$result = $SQL->get_result();
+	}
 	else {
 		$errormessage = "Database Not Found";
 	}
+if($result->num_rows < 1)
+	$errormessage = "List not found!";
 
-	if($result->num_rows < 1)
-		$errormessage = "List not found!";
-
-	if ($_SERVER['REQUEST_METHOD'] == 'POST'){
-		$list = "";
-		foreach($_POST['list'] as $element) {
-			if($list == "") 
-				$list = trim($element, " ,");
-			else if(trim($element, " ,"))
-				$list = $list . "," . trim($element);
-		}
-		$title = trim($_POST['title']);
-		$newitem = trim($_POST['newitem'], " ,");
-		if($newitem)
-			$list = $list . "," . $newitem;
-
-		if($list && $title) {
-			$SQL = $db_found->prepare('UPDATE LISTS SET TITLE = ?, LIST = ? WHERE ID = ?');
-			$SQL->bind_param('sss', $title, $list, $id);
-			$SQL->execute();
-			header ("Location: mylists.php");
-		}
-		else $errormessage = "List must have a Title and at least one Item!";
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+	$list = "";
+	foreach($_POST['list'] as $element) {
+		if($list == "") 
+			$list = trim($element, " ,");
+		else if(trim($element, " ,"))
+			$list = $list . "," . trim($element);
 	}
-	?>
+$title = trim($_POST['title']);
+$newitem = trim($_POST['newitem'], " ,");
+	if($newitem)
+		$list = $list . "," . $newitem;
+	if($list && $title) {
+		$SQL = $db_found->prepare('UPDATE LISTS SET TITLE = ?, LIST = ? WHERE ID = ?');
+		$SQL->bind_param('sss', $title, $list, $id);
+		$SQL->execute();
+		header ("Location: mylists.php");
+	}
+	else $errormessage = "List must have a Title and at least one Item!";
+}
+?>
 
-	<html>
-	<head>
-		<title>List Edit</title>
-		<link rel="stylesheet" type="text/css" href="liststyle.css">
-	</head>
-	<body>
-		<div class="main-container">
-			<div class="listtitle">Edit List</div>
-			<div class="list-container">
-		<?PHP
-		$row = mysqli_fetch_assoc($result);
-		$items = explode(",", $row['LIST']);
-		print "<form name =\"editform\" method =\"post\" action=\"editlist.php?list=" . $id . "\">";
-		print "<p>List Title:</p>";
-		print "<input type = \"text\" name =\"title\" value=\"" . $row['TITLE'] . "\"><br>";
-		print "<p>List Items:</p>";
-		foreach($items as $item) 
-			print "<input type = 'text' name=\"list[]\" value=\"" . $item . "\"><br>";
-		?>
-		<br>
-		Add new list elements here. You can add multiple new items by seperating them with a comma. (",")
-		<br>
-		<INPUT TYPE = 'TEXT' Name ='newitem'  value="">
-		<br>
-		<input type = "Submit" Name = "savebutton" Value = "Save">
-		<a href="mylists.php">Cancel</a>
-	  </form>
-	  </div>
-		<?PHP print $errormessage;?>
-		</div>
-		
-	</body>
-	</html>
+<html>
+<head>
+<title>List Edit</title>
+<link rel="stylesheet" type="text/css" href="liststyle.css">
+</head>
+<body>
+<div class="main-container">
+	<div class="listtitle">Edit List</div>
+	<div class="list-container">
+<?PHP
+$row = mysqli_fetch_assoc($result);
+$items = explode(",", $row['LIST']);
+print "<form name =\"editform\" method =\"post\" action=\"editlist.php?list=" . $id . "\">";
+print "<p>List Title:</p>";
+print "<input type = \"text\" name =\"title\" value=\"" . $row['TITLE'] . "\"><br>";
+print "<p>List Items:</p>";
+foreach($items as $item) 
+	print "<input type = 'text' name=\"list[]\" value=\"" . $item . "\"><br>";
+?>
+<br>
+Add new list elements here. You can add multiple new items by seperating them with a comma. (",")
+<br>
+<INPUT TYPE = 'TEXT' Name ='newitem'  value="">
+<br>
+<input type = "Submit" Name = "savebutton" Value = "Save">
+<a href="mylists.php">Cancel</a>
+</form>
+</div>
+<?PHP print $errormessage;?>
+</div>
+</body>
+</html>
