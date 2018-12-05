@@ -46,8 +46,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 		<a href = "mylists.php">My lists</a>
 		<a href = logout.php>Log out</a>
 		<br>
-		<?PHP print "User " . $_SESSION['user'] . " Logged In";?>
-	</div>
+		</div>
 	<?PHP print $errormessage;?>
 </div>
 	</body>

@@ -7,13 +7,14 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 
 	require '../../configure.php';
 	$database = "lists";
+	$uname = $_SESSION['user'];
 
 	$db_found = new mysqli(DB_SERVER, DB_USER, DB_PASS, $database);
 
 	if ($db_found) {		
 	
 			$SQL = $db_found->prepare('SELECT ID, TITLE, LIST FROM LISTS WHERE L1 = ?');
-			$SQL->bind_param('s', $_SESSION['user']);
+			$SQL->bind_param('s', $uname);
 			$SQL->execute();
 			$result = $SQL->get_result();
 			
@@ -32,6 +33,7 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 </head>
 <body>
 	<div class="main-container">
+		<div class="listtitle"><?PHP print $uname . "'s lists";?></div>
 	<?PHP 
 
 			while($row = mysqli_fetch_assoc($result)) {

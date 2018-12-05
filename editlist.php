@@ -8,10 +8,18 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 
 	require '../../configure.php';
 	$database = "lists";
+	$uname = $_SESSION['user'];
 
 	$db_found = new mysqli(DB_SERVER, DB_USER, DB_PASS, $database);
 
-	if ($db_found) {		
+	if ($db_found) {	
+
+			$SQL = $db_found->prepare('SELECT * FROM LISTS WHERE L1 = ? AND ID = ?');
+			$SQL->bind_param('ss', $uname, $id);
+			$SQL->execute();
+			$result = $SQL->get_result();
+			if ($result->num_rows < 1)
+				header("location: login.php");
 	
 			$SQL = $db_found->prepare('SELECT TITLE, LIST FROM LISTS WHERE ID = ?');
 			$SQL->bind_param('s', $id);
