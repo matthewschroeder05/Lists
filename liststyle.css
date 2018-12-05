@@ -1,16 +1,46 @@
 .mylisteven {
 	background-color: lightblue;
-}
-
-.listtitle {
-	text-decoration: underline;
-	text-decoration: bold;
-	font-size: 30px;
-	display: inline-block;
-	margin-bottom: : 200px;
+	font-size: 24px;
+	font: helvetica;
 }
 
 .listitem {
 	font-size: 24px;
 	font: helvetica;
+}
+
+.listtitle {
+	text-decoration: bold;
+	font-size: 30px;
+	border-bottom: 1px solid;
+}
+
+.title {
+	text-align: bottom;
+	display: inline-block;
+	float: right;
+	float: bottom;
+	font-size: 16px;
+	vertical-align: bottom;
+}
+
+.main-container {
+	margin: 24px;
+	width: 480px;
+}
+
+.list-container {
+		margin-bottom: 10px;
+		margin-top: 10px;
+		border: 1px solid;
+		border-radius: 10px;
+		padding: 5px;
+
+}
+
+.index-container {
+		margin: 10px;
+		border: 1px solid;
+		border-radius: 10px;
+		padding-bottom: 5px;
 }

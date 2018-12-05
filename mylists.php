@@ -30,16 +30,19 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 	<link rel="stylesheet" type="text/css" href="liststyle.css">
 </head>
 <body>
+	<div class="main-container">
 	<?PHP 
 
 			while($row = mysqli_fetch_assoc($result)) {
+				print "<div class=\"list-container\">";
 				$items = explode(",", $row['LIST']);
-				print "<div class=\"listtitle\">" . $row['TITLE'] . "</div> <a href=\"editlist.php?list=" . $row['ID'] . "\">edit</a><br>";
+				print "<div class=\"listtitle\">" . $row['TITLE'] . "<div class=\"title\"><a href=\"editlist.php?list=" . $row['ID'] . "\">edit</a></div></div><br>";
 				$count = 0;
 				foreach($items as $item) {
-					($count % 2 == 0) ? print "<div class=\"listitem\">" . $item . "<br>" : print "<div class=\"mylisteven\">" . $item . "</div>";
+					($count % 2 == 0) ? print "<div class=\"listitem\">" . $item . "</div>" : print "<div class=\"mylisteven\">" . $item . "</div>";
 					$count++;
 				}
+				print "</div>";
 			}
 			
 	?>
@@ -49,5 +52,8 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 			<?PHP 
 			print $errormessage;
 			?>
+		</p>
+	</p>
+</div>
 </body>
 </html>
