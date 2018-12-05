@@ -1,0 +1,24 @@
+Lists Design Doc
+
+Lists is a web app 
+
+Users can sign up and log in with a user name and password
+
+Once logged in, user will be able to see their existing lists, and create new ones
+
+Next phase: allow users to set Llists to public or private, and see public lists of other users. Friends list?
+
+
+List Creation Interface:
+	Input field for List name
+	Input field for list items
+		list items can be entered several at a time seperated by ','
+	Save Button
+
+	Index Page
+		If no user logged in, prompt for login or signup
+
+	List of Lists
+		display formatted lists from the user
+		
+	
