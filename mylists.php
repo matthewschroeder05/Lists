@@ -39,7 +39,7 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 				print "<div class=\"listtitle\">" . $row['TITLE'] . "<div class=\"title\"><a href=\"editlist.php?list=" . $row['ID'] . "\">edit</a></div></div><br>";
 				$count = 0;
 				foreach($items as $item) {
-					($count % 2 == 0) ? print "<div class=\"listitem\">" . $item . "</div>" : print "<div class=\"mylisteven\">" . $item . "</div>";
+					($count % 2 != 0) ? print "<div class=\"listitem\">" . $item . "</div>" : print "<div class=\"mylisteven\">" . $item . "</div>";
 					$count++;
 				}
 				print "</div>";

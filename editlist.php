@@ -40,10 +40,13 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 		if($newitem)
 			$list = $list . "," . $newitem;
 
-		$SQL = $db_found->prepare('UPDATE LISTS SET TITLE = ?, LIST = ? WHERE ID = ?');
+		if($list && $title) {
+			$SQL = $db_found->prepare('UPDATE LISTS SET TITLE = ?, LIST = ? WHERE ID = ?');
 			$SQL->bind_param('sss', $title, $list, $id);
 			$SQL->execute();
-				header ("Location: mylists.php");
+			header ("Location: mylists.php");
+		}
+		else $errormessage = "List must have a Title and at least one Item!";
 	}
 	?>
 
@@ -66,6 +69,7 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 		foreach($items as $item) 
 			print "<input type = 'text' name=\"list[]\" value=\"" . $item . "\"><br>";
 		?>
+		<br>
 		Add new list elements here. You can add multiple new items by seperating them with a comma. (",")
 		<br>
 		<INPUT TYPE = 'TEXT' Name ='newitem'  value="">

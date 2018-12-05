@@ -16,7 +16,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			$SQL = $db_found->prepare("INSERT INTO lists (L1, TITLE, LIST) VALUES (?,?,?)");
 			$SQL->bind_param('sss', $_SESSION['user'], $title, $list);
 			$SQL->execute();
-			header ("Location: page1.php");
+			header ("Location: mylists.php");
 		}
 		else $errormessage = "Database Not Found";
 	}
@@ -33,7 +33,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 			<div class="listtitle">New List</div>
 			<div class="list-container">
 				<p>Create a new List</p>
-		<form NAME ="form1" METHOD ="POST" ACTION ="page1.php">
+		<form NAME ="form1" METHOD ="POST" ACTION ="newlist.php">
 		list name: <INPUT TYPE = 'TEXT' Name ='listname'  value="">
 		<br>
 		<br>
