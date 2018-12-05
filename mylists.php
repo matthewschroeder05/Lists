@@ -27,23 +27,33 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 <html>
 <head>
 	<title>My Lists</title>
+	<link rel="stylesheet" type="text/css" href="liststyle.css">
 </head>
 <body>
+	<div class="main-container">
 	<?PHP 
 
 			while($row = mysqli_fetch_assoc($result)) {
+				print "<div class=\"list-container\">";
 				$items = explode(",", $row['LIST']);
-				print $row['TITLE'] . " <a href=\"editlist.php?list=" . $row['ID'] . "\">edit</a><br>";
-				foreach($items as $item) 
-					print $item . "<br>";
+				print "<div class=\"listtitle\">" . $row['TITLE'] . "<div class=\"title\"><a href=\"editlist.php?list=" . $row['ID'] . "\">edit</a></div></div><br>";
+				$count = 0;
+				foreach($items as $item) {
+					($count % 2 == 0) ? print "<div class=\"listitem\">" . $item . "</div>" : print "<div class=\"mylisteven\">" . $item . "</div>";
+					$count++;
+				}
+				print "</div>";
 			}
 			
 	?>
 	<p>
-		<a href="page1.php">home</a> <a href="logout.php">log out</a>
+		<a href="newlist.php">new list</a> <a href="logout.php">log out</a>
 		<p>
 			<?PHP 
 			print $errormessage;
 			?>
+		</p>
+	</p>
+</div>
 </body>
 </html>

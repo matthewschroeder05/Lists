@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 				session_start();
 				$_SESSION['login'] = "lists_logged_in";
 				$_SESSION['user'] = $uname;
-				header ("Location: page1.php");
+				header ("Location: mylists.php");
 			}
 			else {
 				$errorMessage = "Login FAILED";
@@ -46,17 +46,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 <html>
 <head>
-<title>Basic Login Script</title>
+<title>Lists Login</title>
+<link rel="stylesheet" type="text/css" href="liststyle.css">
 </head>
 <body>
+	<div class="main-container">
+		<div class="listtitle">Login to Lists</div>
+		<div class="list-container">
+
 <FORM NAME ="form1" METHOD ="POST" ACTION ="login.php">
 Username: <INPUT TYPE = 'TEXT' Name ='username'  value="" maxlength="20">
+<br>
+<br>
 Password: <INPUT TYPE = 'password' Name ='password'  value="" maxlength="16">
-<P align = center>
+<br>
+<br>
+
 <INPUT TYPE = "Submit" Name = "Submit1"  VALUE = "Login">
-</P>
 </FORM>
-<P>
+</div>
 <?PHP print $errorMessage;?>
+</div>
+
 </body>
 </html>

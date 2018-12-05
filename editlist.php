@@ -50,13 +50,19 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 	<html>
 	<head>
 		<title>List Edit</title>
+		<link rel="stylesheet" type="text/css" href="liststyle.css">
 	</head>
 	<body>
+		<div class="main-container">
+			<div class="listtitle">Edit List</div>
+			<div class="list-container">
 		<?PHP
 		$row = mysqli_fetch_assoc($result);
 		$items = explode(",", $row['LIST']);
 		print "<form name =\"editform\" method =\"post\" action=\"editlist.php?list=" . $id . "\">";
+		print "<p>List Title:</p>";
 		print "<input type = \"text\" name =\"title\" value=\"" . $row['TITLE'] . "\"><br>";
+		print "<p>List Items:</p>";
 		foreach($items as $item) 
 			print "<input type = 'text' name=\"list[]\" value=\"" . $item . "\"><br>";
 		?>
@@ -67,11 +73,9 @@ if (!(isset($_SESSION['login']) && $_SESSION['login'] != '')) {
 		<input type = "Submit" Name = "savebutton" Value = "Save">
 		<a href="mylists.php">Cancel</a>
 	  </form>
-	  
-		<p>
-			<?PHP
-			print $errormessage;
-			?>
-		</p>
+	  </div>
+		<?PHP print $errormessage;?>
+		</div>
+		
 	</body>
 	</html>
